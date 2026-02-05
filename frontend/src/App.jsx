@@ -30,6 +30,9 @@ function App() {
     }
   };
 
+  // Determine API Base URL (env var for prod, localhost for dev)
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+
   const handleNgram = async (type) => {
     setLoading(true);
     setResults(null);
@@ -40,7 +43,7 @@ function App() {
     setResultTitle(`${type.charAt(0).toUpperCase() + type.slice(1)}s`);
     scrollToResults(); // Scroll to results panel
     try {
-      const response = await fetch('http://localhost:5000/api/analyze', {
+      const response = await fetch(`${API_BASE_URL}/api/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: inputText, type: type }),
@@ -63,7 +66,7 @@ function App() {
     setErrorMsg('');
     scrollToResults();
     try {
-      const response = await fetch('http://localhost:5000/api/perplexity', {
+      const response = await fetch(`${API_BASE_URL}/api/perplexity`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ training_text: inputText, test_text: testText }),
@@ -92,7 +95,7 @@ function App() {
     setErrorMsg('');
     scrollToResults();
     try {
-      const response = await fetch('http://localhost:5000/api/edit-distance', {
+      const response = await fetch(`${API_BASE_URL}/api/edit-distance`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ source: sourceStr, target: targetStr }),
@@ -116,7 +119,7 @@ function App() {
     setResultTitle("Tokens (Regex)");
     scrollToResults();
     try {
-      const response = await fetch('http://localhost:5000/api/tokenize', {
+      const response = await fetch(`${API_BASE_URL}/api/tokenize`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: inputText }),
@@ -139,7 +142,7 @@ function App() {
     setErrorMsg('');
     scrollToResults();
     try {
-      const response = await fetch('http://localhost:5000/api/morph-analysis', {
+      const response = await fetch(`${API_BASE_URL}/api/morph-analysis`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ word: morphWord }),
