@@ -50,7 +50,13 @@ def bert_tokenize(text):
     return standard_word_tokenize(text)
 
 
+
+@app.route('/', methods=['GET'])
+def health_check():
+    return jsonify({"status": "healthy", "message": "Backend is running!"})
+
 @app.route('/api/analyze', methods=['POST'])
+
 def analyze_text():
     data = request.json
     text = data.get('text', '')
